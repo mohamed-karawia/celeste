@@ -4,22 +4,76 @@
 
         <div class="input--box">
             <label>EMAIL</label>
-            <input type="email">
+            <input type="email" v-model="email">
         </div>
 
          <div class="input--box">
             <label>PASSWORD</label>
-            <input type="password">
+            <input type="password" v-model="password">
         </div>
 
-        <button>LOGIN</button>
-
+        <div class="login--buttons">
+            <button class="login" @click="loginLocal">LOGIN</button>
+            <!--<button @click="checkLoginState">Login with facebook</button>  -->
+            <v-facebook-login 
+            v-model="model" 
+            app-id="978916109178865" 
+            @sdk-init="handleSdkInit"
+            @login="tryLogin"
+            >
+             <p class="child-content" slot="login">Login with facebook</p>
+            </v-facebook-login>
+        </div>
+        
     </div>
 </template>
 
 <script>
+//import facebookLogin from 'facebook-login-vuejs'
+import VFacebookLogin from 'vue-facebook-login-component';
 export default {
-    
+    data() {
+      return {
+        email: '',
+        password: '',
+        FB: {},
+        model: {},
+        scope: {},
+        accessToken: ''
+      }
+    },
+
+    components:{
+        VFacebookLogin
+    },
+
+    methods: {
+      handleSdkInit({ FB, scope }) {
+        this.FB = FB
+        this.scope = scope
+      },
+
+      tryLogin(){
+        this.FB.getLoginStatus(res => {
+        if (res.status === 'connected') {
+        const accessToken = res.authResponse.accessToken;
+        const payload = {
+          access_token: accessToken
+        }
+        this.$emit('loginFacebook', payload)
+        } 
+        });
+      },
+
+      loginLocal(){
+        const payload = {
+          email : this.email,
+          password : this.password
+        };
+        this.$store.dispatch('loginLocal', payload)
+      }
+
+    }
 }
 </script>
 
@@ -32,7 +86,6 @@ export default {
     width: 50%;
     margin-bottom: 2rem;
     padding: 2rem;
-
     @media only screen and (max-width: 500px){
         width: 100%;
         align-items: center;
@@ -61,9 +114,15 @@ export default {
         }
     }
 
-    button{
+    .login{
         @include loginButton;
     }
+}
+
+.login--buttons{
+  display: flex;
+  align-items: flex-start;
+  flex-direction: column;
 }
 
 </style>

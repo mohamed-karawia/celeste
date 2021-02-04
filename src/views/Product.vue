@@ -38,8 +38,8 @@
                         v-for="(length, index) in product.size" 
                         :key="index" 
                         class="lenght--list__item"
-                        :class="{'active' : productLength == length}"
-                        @click="changeLength(length)"
+                        :class="{'active' : productLength == index}"
+                        @click="changeLength(index)"
                         >{{ length }} CM</li>
                     </ul>
                 </div>
@@ -50,11 +50,11 @@
                 </div>
 
                 <div class="product__details__cart">
-                    <div class="quantity">
-                        <button class="quantity__button" @click="quantity--">&#8722;</button>
-                        <input type="number" v-model="quantity">
-                        <button class="quantity__button" @click="quantity++">&#43;</button>
-                    </div>
+                    <Quantity 
+                    :quantity="quantity" 
+                    v-on:increaseQuantity="quantity++"
+                    v-on:decreaseQuantity="quantity--"  
+                    />
                     <button class="add-to-cart">Add to Cart</button>
                 </div>
 
@@ -78,18 +78,21 @@
 
 
 <script>
-import Product from '../components/products/SmallProduct'
+import Product from '../components/products/SmallProduct';
+import Quantity from '../components/Quantity'
 
 export default {
     data(){
         return{
             mainImage: 0,
             quantity: 1,
+            productLength : 0
         }
     },
 
     components:{
-        product : Product
+        product : Product,
+        Quantity
     },
 
     created(){
@@ -107,8 +110,8 @@ export default {
         },
     },
     methods: {
-        changeLength(length){
-            this.productLength = length;
+        changeLength(index){
+            this.productLength = index;
         }
     }
     
@@ -345,27 +348,7 @@ export default {
             justify-content: space-between;
             
 
-            .quantity{
-                display: flex;
-
-                &__button{
-                    width: 2rem;
-                    background-color: rgb(211, 211, 211);
-                    display: flex;
-                    justify-content: center;
-                    align-items: center;
-                    font-size: 2rem;
-                    border: none;
-                    border-radius: 3px;
-                    cursor: pointer;
-
-                    @media only screen and (max-width: 500px){
-                    margin-bottom: 2rem;
-                    width: 3rem;
-                    }
-                }
-
-            }
+            
 
             @media only screen and (max-width: 500px){
                width: 100%;
@@ -373,30 +356,9 @@ export default {
                align-items: center;
             }
 
-            input{
-                width: 3rem;
-                border-radius: 0;     
-                border: none;      
-                font-size: 2rem;
+            
 
-                @media only screen and (max-width: 500px){
-                    
-                    width: 4rem;
-                    }
-                
-            }
-
-            /* Chrome, Safari, Edge, Opera */
-            input::-webkit-outer-spin-button,
-            input::-webkit-inner-spin-button {
-            -webkit-appearance: none;
-            margin: 0;
-            }
-
-            /* Firefox */
-            input[type=number] {
-            -moz-appearance: textfield;
-            }
+            
 
             .add-to-cart{
                 border: 1px solid black;

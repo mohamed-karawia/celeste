@@ -37,6 +37,18 @@
                 <small-product :product="product" />
             </li>
         </ul>
+
+        <paginate
+            v-if="products.length > 0"
+            :pageCount="numPages"
+            :clickHandler="changePage"
+            :prevText="'Prev'"
+            :nextText="'Next'"
+            :container-class="'pages'"
+            :page-class="'pages-item'"
+            :page-link-class="'pages-link'">
+        </paginate>
+
     </div>  
 </template>
 
@@ -63,6 +75,10 @@ export default {
          },
          products(){
             return this.$store.getters.products
+        },
+
+        numPages(){
+            return this.$store.getters.pages
         }
     },
     components: {
@@ -100,6 +116,16 @@ export default {
                 page: this.query.page,
                 sort: this.query.sort,
                 order: $event.target.value,
+                }});
+            this.$store.dispatch('getProducts', this.query);
+        },
+
+        changePage(num){
+            this.$router.push({path:'/products',query:{
+                category: this.query.category,
+                page: num,
+                sort: this.query.sort,
+                order: this.query.order,
                 }});
             this.$store.dispatch('getProducts', this.query);
         }
@@ -187,6 +213,21 @@ export default {
     @media only screen and (max-width: 500px){
     grid-template-columns: repeat(2, 12rem);
     }
+}
+
+.pages{
+
+    display: flex;
+    justify-content: center;
+    color: black;
+    margin-top: 4rem;
+    font-size: 1.4rem;
+    width: 10rem;
+
+    a.pages-link{
+        border: 1px solid black;
+    }
+   
 }
 
 </style>

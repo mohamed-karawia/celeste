@@ -8,6 +8,7 @@ import AboutUs from '../views/AboutUs'
 import Products from '../views/Products'
 import Product from '../views/Product'
 import Login from '../views/Login'
+import Cart from '../views/Cart'
 
 
 Vue.use(VueRouter)
@@ -50,6 +51,13 @@ const routes = [
     path: '/login',
     name: 'Login',
     component: Login
+  },
+
+  /***************Need Auth */
+  {
+    path: '/cart',
+    name: 'Cart',
+    component: Cart
   },
 ]
 

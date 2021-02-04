@@ -1,5 +1,7 @@
 import axios from 'axios';
 
+import router from '../../router/index';
+
 
 const state = {
     products: [],
@@ -11,6 +13,10 @@ const state = {
 const getters = {
     products(state){
         return state.products
+    },
+
+    pages(state){
+        return Math.ceil(state.totalProducts/10)
     },
 
     product(state){
@@ -56,6 +62,18 @@ const actions = {
             commit('pushProduct', res.data.data)
         })
         .catch(err => console.log(err.response))
+    },
+
+    searchProducts({commit}){
+        const searchQuery = router.currentRoute.query.searchQ;
+        const page = router.currentRoute.query.page;
+        const category = router.currentRoute.query.category;
+        axios.get(`/user/products/search?searchQ=${searchQuery}&page=${page}&category=${category}`)
+        .then(res => {
+            console.log(res);
+            commit('pushProducts', res.data.data)
+        })
+        .catch(err => console.log(err))
     }
 
 };

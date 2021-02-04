@@ -12,6 +12,9 @@ import Navbar from './components/Navbar'
 export default {
   components:{
     navBar : Navbar
+  },
+  created(){
+    this.$store.dispatch('getCategories')
   }
 }
 </script>
@@ -19,6 +22,7 @@ export default {
 <style lang="scss">
 
 html{
+    overflow-x: hidden;
     font-size: 62.5%; //1rem = 10px
 
    /* @media only screen and (max-width: 500px){

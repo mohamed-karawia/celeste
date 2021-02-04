@@ -1,6 +1,6 @@
 <template>
     <div class="container">
-        <login />
+        <login v-on:loginFacebook="loginFacebook" />
         <register v-on:register="register" />
     </div>
 </template>
@@ -18,6 +18,11 @@ export default {
     methods: {
         register(payload){
             this.$store.dispatch('registerUser', payload)
+        },
+
+        loginFacebook(payload){
+            console.log(payload)
+            this.$store.dispatch('facebookAuth', payload)
         }
     }
 }

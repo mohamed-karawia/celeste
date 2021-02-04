@@ -9,11 +9,11 @@
                     <use xlink:href="../assets/sprite.svg#icon-user"></use>
                 </svg>
 
-                <svg class="nav--icon" >
+                <svg class="nav--icon" @click="showSearch = !showSearch">
                     <use xlink:href="../assets/sprite.svg#icon-search"></use>
                 </svg>
 
-                <svg class="nav--icon">
+                <svg class="nav--icon" @click="$router.push('/cart')">
                     <use xlink:href="../assets/sprite.svg#icon-cart"></use>
                 </svg>
 
@@ -33,6 +33,10 @@
 
         </div>
 
+        <Search v-if="showSearch" 
+        :tags="categories"
+        v-on:hideSearch="showSearch = false"/>
+
         <div class="lower--nav">
             <ul class="nav--list">
                 <li class="nav--list__item"><router-link to="products?category=600d8fff33a0700015473f15&page=1&sort=1&order=1">SHOP</router-link></li>
@@ -41,17 +45,24 @@
                 <li class="nav--list__item"><router-link to="/about-us">ABOUT US</router-link></li>
             </ul>
         </div>
-
-        
-
     </nav>
 </template>
 
 <script>
+import Search from '../components/search/Search'
 export default {
     data(){
         return{
-            showMobileMenu: false
+            showMobileMenu: false,
+            showSearch: false
+        }
+    },
+    components: {
+        Search
+    },
+    computed: {
+        categories(){
+            return this.$store.getters.categories
         }
     }
 }

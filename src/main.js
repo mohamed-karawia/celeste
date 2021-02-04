@@ -6,6 +6,11 @@ import axios from 'axios'
 
 import Vuelidate from 'vuelidate'
 
+import Paginate from 'vuejs-paginate'
+
+Vue.component('paginate', Paginate)
+
+
 Vue.use(Vuelidate)
 
 Vue.config.productionTip = false
