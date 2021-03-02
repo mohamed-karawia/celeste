@@ -1,24 +1,14 @@
-# celeste
+# Celeste store online shopping website
 
-## Project setup
+## Technologies:
 ```
-npm install
-```
-
-### Compiles and hot-reloads for development
-```
-npm run serve
+1- Vue.js
+2- SASS preprocessor
+3- Axios for API calls 
 ```
 
-### Compiles and minifies for production
+### Notes: 
 ```
-npm run build
-```
-
-### Lints and fixes files
-```
-npm run lint
+-Not finished yet.
 ```
 
-### Customize configuration
-See [Configuration Reference](https://cli.vuejs.org/config/).
