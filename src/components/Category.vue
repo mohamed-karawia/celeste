@@ -31,14 +31,20 @@ export default {
     //width:  25rem;
     margin-bottom: 10px;
     cursor: pointer;
+    padding: 1rem;
 
     @media only screen and (max-width: 500px){
         //width: 40vw;
-        height: 15rem;
+        height: 20rem;
+    }
+
+    &:hover{
+    border: 1px solid $primary-color;
+
     }
 
     &__image{
-        height: 90%;
+        height: 100%;
         border-radius: 10px;
         background-position: center;
         background-size: cover;
@@ -48,6 +54,11 @@ export default {
         @include h2;
         text-transform: uppercase;
         margin-top: .5rem;
+        align-self: center;
+
+        @media only screen and (max-width: 500px){
+        font-weight: 500;
+    }
     }
 }
 

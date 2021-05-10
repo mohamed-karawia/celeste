@@ -49,11 +49,13 @@ export default {
 
 .total{
     width: 40rem;
-    background-color: #F2E3E4;
+    background-color: $primary-color;
     padding: 4rem 3rem;
     display: flex;
     flex-direction: column;
     align-items: flex-start;
+    color: #fff;
+    border-radius: 10px;
 
     &__header{
         font-weight: 100;
@@ -76,10 +78,11 @@ export default {
     }
 
     button.check{
-        background-color: #F2E3E4;
+        background-color: #fff;
         border: 1px solid black;
         padding: 1rem 3rem;
         align-self: center;
+        cursor: pointer;
     }
 }
 

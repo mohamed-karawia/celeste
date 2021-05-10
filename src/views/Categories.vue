@@ -1,6 +1,5 @@
 <template>
     <div class="container">
-        <h1>CATEGORIES</h1>
         <div class="categories">
             <Category 
             v-for="category in categories" 
@@ -38,9 +37,6 @@ export default {
     @include container;
 }
 
-h1{
-    @include h1;
-}
 
 .categories{
     width: 100%;

@@ -84,7 +84,13 @@ export default {
     display: flex;
     flex-direction: column;
     width: 50%;
-    
+    background-color: #ffff;
+    padding: 1rem;
+    position: fixed;
+    left: 50%;
+    top: 50%;
+    transform: translate(-50%, -50%);
+    align-items: center;
 
     @media only screen and (max-width: 500px){
         width: 100%;

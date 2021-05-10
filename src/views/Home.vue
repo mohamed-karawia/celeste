@@ -1,21 +1,31 @@
 <template>
   <div class="container">
-    <section class="arrivals--hot">
-      <div 
-      class="new--arrivals"
-      :style="{ 'background-image': 'url(https://celeste-api.herokuapp.com/'+ home.newArrival.images[0] + ')' }"
-      >
+    <section class="arrivals--hot" v-if="home.newArrival.length > 0">
+      <div class="new--arrivals">
+        <div 
+        class="new--arrivals__image"
+        :style="{ 'background-image': 'url(https://celeste-api.herokuapp.com/'+ home.newArrival[0].images[0] + ')' }"
+        @click="$router.push(`/product/${home.newArrival._id}`)"></div>
         <h2>New Arrivals</h2>
+
       </div>
+      
+
+
 
       <div 
       class="hot--item"
-      :style="{ 'background-image': 'url(https://celeste-api.herokuapp.com/'+ home.newArrival.images[1] + ')' }">
+      >
+      <div class="hot--item__image" 
+      :style="{ 'background-image': 'url(https://celeste-api.herokuapp.com/'+ home.hotItem.images[0] + ')' }"
+      @click="$router.push(`/product/${home.hotItem._id}`)">
+
+      </div>
        <h2>Hot Item</h2>
       </div>
     </section>
 
-    <section class="categories">
+    <section class="categories" v-if="home.categories.length > 0">
       <h1>SHOP TO</h1>
       <ul class="categories--list">
         <li 
@@ -27,7 +37,7 @@
           sort: 1,
           order: 1
           }});">
-        {{ home.categories[0].name }}</li>
+        </li>
         <li class="categories--list--item"
         :style="{ 'background-image': 'url(https://celeste-api.herokuapp.com/'+ home.categories[1].image + ')' }"
         @click="$router.push({path:'/products',query:{
@@ -36,7 +46,7 @@
           sort: 1,
           order: 1
           }});">
-        {{ home.categories[1].name }}</li>
+        </li>
         <li class="categories--list--item"
         :style="{ 'background-image': 'url(https://celeste-api.herokuapp.com/'+ home.categories[2].image + ')' }"
         @click="$router.push({path:'/products',query:{
@@ -45,7 +55,7 @@
           sort: 1,
           order: 1
           }});">
-        {{ home.categories[2].name }}</li>
+        </li>
         <li 
         class="show--more"
         @click="$router.push('categories')">Show<br> More</li>
@@ -57,8 +67,6 @@
 
 <script>
 
-
-
 export default {
   created(){
     this.$store.dispatch('getHomeDetails')
@@ -68,7 +76,7 @@ export default {
     home(){
       return this.$store.getters.home
     }
-  }
+  },
 }
 </script>
 
@@ -82,39 +90,76 @@ export default {
 .arrivals--hot{
   display: flex;
   justify-content: space-between;
-  height: 40vh;
+  height: 42vh;
 
 
   @media only screen and (max-width: 500px){
     width: 100%;
     flex-direction: column;
-    height: 33vh;
+    height: 50vh;
   }
 
   .new--arrivals{
-    background-position: center;
+    width: 45%;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    border: none;
+    cursor: pointer;
+    padding: 3px;
+    
+    @media only screen and (max-width: 500px){
+    width: 100%;
+    height: 40rem;
+    border-radius: 10px;
+  }
+
+    &:hover{
+      border: 1px solid $primary-color;
+      border-radius: 10px;
+    }
+  }
+
+  .new--arrivals__image{
+    //border: 1px solid red;
+    background-position-y: 100%;
     background-repeat: no-repeat;
     background-size: cover;
-    width: 60%;
+    width: 100%;
+    height: 100%;
     display: flex;
     justify-content: center;
     align-items: flex-end;
     padding: 2rem;
-    cursor: pointer;
     
 
-    @media only screen and (max-width: 500px){
-    width: 100%;
-    height: 10rem;
-    border-radius: 10px;
-  }
+    
   }
 
   .hot--item{
-    border: 1px solid blue;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    width: 45%;
+    height: 100%;
+    cursor: pointer;
+
+    @media only screen and (max-width: 500px){
+    display: none;
+  }
+
+    &:hover{
+      border: 1px solid $primary-color;
+      border-radius: 10px;
+    }
+  }
+
+  .hot--item__image{
+    
     background-position: center;
     background-size: cover;
-    width: 35%;
+    width: 100%;
+    height: 40rem;
     display: flex;
     justify-content: center;
     align-items: flex-end;
@@ -139,14 +184,15 @@ export default {
     list-style: none;
 
      @media only screen and (max-width: 500px){
-        justify-content: center;
+        display: grid;
+        grid-template-columns: repeat(auto-fill, 40vw); //make 4 cols with size 1fr
+        
       }
 
     &--item{
-      min-width: 22rem;
+      width: 22rem;
       height: 20rem;
       border-radius: 7px;
-      background-size: cover;
       background-position: center;
       cursor: pointer;
       color: white;
@@ -157,15 +203,26 @@ export default {
       align-items: center;
       //padding: 2rem;
       text-shadow: 2px 2px 1px #000;
+      background-size: 100%;
+      background-repeat: no-repeat;
+      transition: all .2s;
 
       @media only screen and (max-width: 500px){
-        margin-bottom: 1rem;
+        width: 40vw;
+      }
+
+      &:hover{
+        background-size: 103%;
+      }
+
+      @media only screen and (max-width: 500px){
+       margin-bottom: 1rem;
       }
      
     }
 
     .show--more{
-      min-width: 20rem;
+      width: 20rem;
       height: 20rem;
       border-radius: 7px;
       display: flex;
@@ -173,15 +230,29 @@ export default {
       align-items: center;
       font-size: 2.5rem;
       text-transform: uppercase;
-      border: 1px solid black;
+      border: 1px solid $primary-color;
+      cursor: pointer;
+      transition: all .4s;
+
+      @media only screen and (max-width: 500px){
+        width: 40vw;
+        height: 16rem;
+        margin-top: 2rem;
+      }
+
+      &:hover{
+        background-color: $primary-color;
+        color: white;
+      }
     }
   }
 }
 
 h2{
-  color: rgb(252, 255, 73);
-  font-size: 3rem;
-  text-shadow: 2px 2px  rgb(0, 0, 0) ;
+  color: $secondary-color;
+  font-size: 2.5rem;
+  //text-shadow: 1px 1px 2px rgb(139, 139, 139);
+  font-weight: 500;
 }
 
 h1{

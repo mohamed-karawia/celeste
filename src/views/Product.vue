@@ -195,11 +195,12 @@ export default {
         height: 100%;
 
         &__header{
-            border-bottom: 1px solid black;
+            border-bottom: 1px solid $primary-color;
             min-width: 40rem;
             height: 6rem;
             display: flex;
             flex-direction: column;
+           
 
             @media only screen and (max-width: 500px){
                 display: none;
@@ -238,7 +239,7 @@ export default {
 
         &__header--mobile{
             border-bottom: 1px solid black;
-            min-width: 35rem;
+            width: 30rem;
             margin-bottom: 1rem;
             height: 6rem;
             display: flex;
@@ -315,8 +316,9 @@ export default {
                 }
 
                 &__item.active{
-                    border-color: black;
-                    color: black;
+                    background-color: $primary-color;
+                    color: #fff;
+                    border: none;
                 }
             }
         }
@@ -361,13 +363,14 @@ export default {
             
 
             .add-to-cart{
-                border: 1px solid black;
-                background-color: rgb(241, 241, 241);
+                border: 1px solid #fff;
+                background-color: $primary-color;
                 width: 15rem;
                 font-size: 1.5rem;
                 padding : 1rem .7rem;
-                color: black;
+                color: #fff;
                 border-radius: 1rem;
+                cursor: pointer;
             }
         }
     }

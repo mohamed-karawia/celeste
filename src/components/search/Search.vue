@@ -2,7 +2,7 @@
     <div class="search">
         <div class="search__header">
             <h1>Search</h1>
-            <span @click="$emit('hideSearch')">&#10008;</span>
+            <span @click="$emit('hideSearch')">&#10006;</span>
        </div>
         <div class="search--tags">
             <h2 class="search--tags__header">
@@ -53,7 +53,8 @@ export default {
 
 <style lang="scss" scoped>
 .search{
-    position: absolute;
+    z-index: 2;
+    position: fixed;
     left: 0;
     width: 100vw;
     height: 93vh;
@@ -152,6 +153,7 @@ export default {
             display: flex;
             justify-content: center;
             border-radius: 10px;
+            cursor: pointer;
         }
     }
 

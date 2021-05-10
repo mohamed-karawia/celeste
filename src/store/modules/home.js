@@ -32,7 +32,7 @@ const actions = {
     getHomeDetails({commit}){
         axios.get('/user/landing')
         .then(res => {
-            console.log(res)
+            console.log(res.data.data)
             commit('getHomeData', res.data.data)
         })
         .catch(err => console.log(err))

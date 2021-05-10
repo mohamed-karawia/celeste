@@ -1,10 +1,11 @@
 <template>
     <div class="login">
+
         <h1>Login</h1>
 
         <div class="input--box">
             <label>EMAIL</label>
-            <input type="email" v-model="email">
+            <input type="email" v-model="email" placeholder="example@example.com">
         </div>
 
          <div class="input--box">
@@ -12,8 +13,9 @@
             <input type="password" v-model="password">
         </div>
 
+        <button class="loginButton" @click="loginLocal">LOGIN</button>
+
         <div class="login--buttons">
-            <button class="login" @click="loginLocal">LOGIN</button>
             <!--<button @click="checkLoginState">Login with facebook</button>  -->
             <v-facebook-login 
             v-model="model" 
@@ -44,7 +46,8 @@ export default {
     },
 
     components:{
-        VFacebookLogin
+        VFacebookLogin,
+
     },
 
     methods: {
@@ -81,16 +84,20 @@ export default {
 @import '../../sass/global.scss';
 
 .login{
+    background-color: #ffff;
+    position: fixed;
+    left: 50%;
+    top: 50%;
+    transform: translate(-50%, -50%);
     display: flex;
     flex-direction: column;
+    align-items: center;
     width: 50%;
     margin-bottom: 2rem;
     padding: 2rem;
     @media only screen and (max-width: 500px){
         width: 100%;
         align-items: center;
-    border: 1px solid black;
-
     }
 
     h1{
@@ -110,19 +117,20 @@ export default {
 
         input{
             border: 1px solid black;
-            height: 4rem
+            height: 4rem;
+            padding-left: .6rem;
         }
     }
 
-    .login{
+    .loginButton{
+
         @include loginButton;
+
+        @media only screen and (max-width: 500px){
+        margin-left: 1.2rem;
+    }
     }
 }
 
-.login--buttons{
-  display: flex;
-  align-items: flex-start;
-  flex-direction: column;
-}
 
 </style>

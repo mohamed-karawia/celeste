@@ -22,8 +22,8 @@
                 </svg> 
             </div>
 
-            <div class="mobile--menu" v-if="showMobileMenu">
-                <ul class="mobile--nav--list">
+            <div  @click="showMobileMenu = !showMobileMenu" :class="[showMobileMenu? 'mobile--menu open' : 'mobile--menu']">
+                <ul class="mobile--nav--list" >
                 <li class="mobile--nav--list__item" @click="showMobileMenu = false"><router-link to="/products?category=600d8fff33a0700015473f15&page=1&sort=1&order=1">SHOP</router-link></li>
                 <li class="mobile--nav--list__item" @click="showMobileMenu = false"><router-link to="/categories">CATEGORIES</router-link></li>
                 <li class="mobile--nav--list__item" @click="showMobileMenu = false"><router-link to="/customize">CUSTOMIZE</router-link></li>
@@ -39,17 +39,20 @@
 
         <div class="lower--nav">
             <ul class="nav--list">
-                <li class="nav--list__item"><router-link to="products?category=600d8fff33a0700015473f15&page=1&sort=1&order=1">SHOP</router-link></li>
-                <li class="nav--list__item"><router-link to="/categories">CATEGORIES</router-link></li>
-                <li class="nav--list__item"><router-link to="/customize">CUSTOMIZE</router-link></li>
-                <li class="nav--list__item"><router-link to="/about-us">ABOUT US</router-link></li>
+                <router-link tag="li" class="nav--list__item" to="/" exact="">Home</router-link>
+                <router-link tag="li" class="nav--list__item" :to="'products?category='+ categories[0]._id +'&page=1&sort=1&order=1'">SHOP</router-link>
+                <router-link tag="li" class="nav--list__item" to="/categories">CATEGORIES</router-link>
+                <router-link tag="li" class="nav--list__item" to="/customize">CUSTOMIZE</router-link>
+                <router-link tag="li" class="nav--list__item" to="/about-us">ABOUT US</router-link>
             </ul>
         </div>
+        <backdrop component="signup" />
     </nav>
 </template>
 
 <script>
-import Search from '../components/search/Search'
+import Search from '../components/search/Search';
+import backdrop from '../components/backdrop/backdrop'
 export default {
     data(){
         return{
@@ -58,7 +61,8 @@ export default {
         }
     },
     components: {
-        Search
+        Search,
+        backdrop
     },
     computed: {
         categories(){
@@ -74,10 +78,11 @@ export default {
 
 .upper--nav{
     width: 100%;
-    height: 7vh;
+    height: 8vh;
     display: flex;
     justify-content: space-between;
     background-color: #fff;
+    z-index: 999;
 
     @media only screen and (max-width: 500px){
         height: 7vh;      
@@ -85,11 +90,12 @@ export default {
 }
 
 .nav--logo{
-    width: 11rem;
+    width: 12rem;
     background-image: url(../assets/logo.jpeg);
     background-position: center;
     background-size: cover;
     cursor: pointer;
+    
 
      @media only screen and (max-width: 500px){
         width: 12rem;
@@ -97,22 +103,32 @@ export default {
 }
 
 .mobile--menu{
+    left: 0%;
     width: 100vw;
-    height: 50vh;
+    height: 100%;
     background-color: black;
-    position: absolute;
-    top: 9vh;
+    position: fixed;
+    top: -100%;
+    opacity: 0;
     display: flex;
     justify-content: center;
-    z-index: 999;
+    z-index: 100;
+    padding: 2rem 0;
+    transition: all .3s ease-in-out;
+    
 
      @media only screen and (min-width: 501px){
         display: none;
     }
 }
 
+.mobile--menu.open{
+    top: 9vh;
+    opacity: 100%;
+}
+
 .mobile--nav--list{
-    height: 100%;
+   // height: 100%;
     display: flex;
     flex-direction: column;
     justify-content: space-around;
@@ -152,6 +168,26 @@ export default {
     &__item{
         color: black;
         font-size: 1.5rem;
+        padding: .7rem 1.2rem;
+        cursor: pointer;
+        position: relative;
+
+        &::before{
+            content: "";
+            position: absolute;
+            top: 100%;
+            left: 50%;
+            transform: translateX(-50%);
+            width: 0px;
+            height: 1px;
+            background-color: $primary-color;
+            transition: all .3s;
+        }
+
+        &:hover::before{
+            width: 100%
+        }
+
         
 
         a{
@@ -196,5 +232,9 @@ export default {
         height: 2rem;     
     }
     }
+
+.router-link-active{
+    border-bottom: 1px solid #000; 
+}
 
 </style>

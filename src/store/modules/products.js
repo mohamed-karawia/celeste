@@ -7,7 +7,8 @@ const state = {
     products: [],
     totalProducts: 0,
     singleProduct: {},
-    relatedProducts: []
+    relatedProducts: [],
+    loading: false
 };
 
 const getters = {
@@ -29,13 +30,17 @@ const getters = {
     
     relatedProducts(state){
         return state.relatedProducts
+    },
+    
+    loading(state){
+        return state.loading
     }
 };
 
 const mutations = {
     pushProducts(state, data){
         state.products = data.products
-        state.totalProducts = data.totalProducts
+        state.totalProducts = data.total
     },
 
     pushProduct(state, data){
@@ -46,13 +51,22 @@ const mutations = {
 
 const actions = {
 
-    getProducts({commit}, query){
-        axios.get(`/user/products?catigory=${query.category}&page=${query.page}&sort=${query.sort}&order=${query.order}`)
+    getProducts({commit}){
+        const page = router.currentRoute.query.page;
+        const category = router.currentRoute.query.category;
+        const sort = router.currentRoute.query.sort;
+        const order = router.currentRoute.query.order;
+        
+        state.loading = true;
+        axios.get(`/user/products?catigory=${category}&page=${page}&sort=${sort}&order=${order}`)
         .then(res => {
             console.log(res)
             commit('pushProducts', res.data.data)
+            state.loading = false;
         })
-        .catch(err => console.log(err.response))
+        .catch(err => 
+            console.log(err.response)
+            )
     },
 
     getProductDetails({commit}, id){

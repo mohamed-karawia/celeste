@@ -15,13 +15,14 @@ export default {
 </script>
 
 <style lang="scss" scoped>
+@import '../sass/global.scss';
 
 .quantity{
     display: flex;
 
     &__button{
         width: 2rem;
-        background-color: rgb(211, 211, 211);
+        background-color: #fff;
         display: flex;
         justify-content: center;
         align-items: center;

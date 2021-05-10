@@ -4,7 +4,7 @@
         :style="{ 'background-image': 'url(https://celeste-api.herokuapp.com/'+ product.images[0] + ')' }"></div>
         <div class="product--details">
             <h2>{{ product.name }}</h2>
-            <h3>{{ product.price }}L.E</h3>
+            <h3>{{ product.price }} L.E</h3>
         </div>
     </div>
 </template>
@@ -18,6 +18,7 @@ export default {
 </script>
 
 <style lang="scss" scoped>
+@import '../../sass/global.scss';
 
 .product{
     display: flex;
@@ -25,6 +26,12 @@ export default {
     height: 23rem;
     justify-content: space-between;
     cursor: pointer;
+    padding: .2rem;
+
+    &:hover{
+        border: 1px solid $primary-color;
+        border-radius: 10px;
+    }
 
     @media only screen and (max-width: 500px){
     height: 20rem;
@@ -43,13 +50,13 @@ export default {
     }
 
     &--details{
-        width: 90%;
+        width: 100%;
         display: flex;
-        justify-content: space-between;
+        justify-content: space-around;
         align-items: center;
 
         h2{
-            font-size: 2rem;
+            font-size: 1.6rem;
             font-weight: 500;
             text-transform: capitalize;
 
@@ -59,7 +66,7 @@ export default {
         }
 
         h3{
-            font-size: 1.7rem;
+            font-size: 1.6rem;
             font-weight: 500;
 
             @media only screen and (max-width: 500px){
