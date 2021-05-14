@@ -1,6 +1,6 @@
 <template>
     <div class="register">
-        <h1>REGISTER</h1>
+        <h1>Signup</h1>
 
         <div class="input--box">
             <label>Name</label>
@@ -59,7 +59,13 @@ export default {
                 mobile: this.mobile,
                 comfirmPassword: this.confirmPassword 
             }
-            this.$emit('register', payload)
+            this.$store.dispatch('registerUser', payload)
+            this.name = '';
+            this.email = '';
+            this.password = '';
+            this.confirmPassword = '';
+            this.mobile = '';
+            this.$emit('hide-backdrop')
         }
     },
 
@@ -83,13 +89,13 @@ export default {
 .register{
     display: flex;
     flex-direction: column;
-    width: 50%;
+    width: 100%;
     background-color: #ffff;
     padding: 1rem;
-    position: fixed;
+    /*position: fixed;
     left: 50%;
     top: 50%;
-    transform: translate(-50%, -50%);
+    transform: translate(-50%, -50%);*/
     align-items: center;
 
     @media only screen and (max-width: 500px){

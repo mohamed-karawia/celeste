@@ -73,7 +73,10 @@ export default {
           email : this.email,
           password : this.password
         };
-        this.$store.dispatch('loginLocal', payload)
+        this.$store.dispatch('loginLocal', payload);
+            this.email = '';
+            this.password = '';
+            this.$emit('hide-backdrop')
       }
 
     }
@@ -85,14 +88,14 @@ export default {
 
 .login{
     background-color: #ffff;
-    position: fixed;
+    /*position: fixed;
     left: 50%;
     top: 50%;
-    transform: translate(-50%, -50%);
+    transform: translate(-50%, -50%);*/
     display: flex;
     flex-direction: column;
     align-items: center;
-    width: 50%;
+    width: 100%;
     margin-bottom: 2rem;
     padding: 2rem;
     @media only screen and (max-width: 500px){

@@ -1,19 +1,18 @@
 <template>
     <div class="container">
-        <div class="filters">
-            <div class="filters__sort">
-                <h2>Sort by</h2>
-                <div class="custom-select">
-                    <select name="" id="" @change="changeSort($event)">
-                    <option value="1">Date</option>
-                    <option value="2">Top Selling</option>
-                    <option value="4">Price</option>
-                    </select>
-                </div>
 
-                
-                
+        <div class="filters">
+            <div class="dropdown">
+                <h2>Sort by</h2>
+                <button class="dropbtn">{{ sortBy }}</button>
+                    <div class="dropdown-content">
+                    <div @click="changeSort(1)">Date</div>
+                    <div @click="changeSort(2)">Top Selling</div>
+                    <div @click="changeSort(3)">Price</div>
+                    </div>
+                             
             </div>
+
             <div class="dropdown">
                 <h2>Order</h2>               
                 <button class="dropbtn">{{ orderBy }}</button>
@@ -114,11 +113,11 @@ export default {
             this.$store.dispatch('getProducts', this.query);
         },
 
-        changeSort(event){
+        changeSort(sort){
 
-            if(event.target.value == 1){
-                this.event.target.valueBy = 'Date'
-            }else if(event.target.value == 2){
+            if(sort == 1){
+                this.sortBy = 'Date'
+            }else if(sort == 2){
                 this.sortBy = 'Top Selling'
             }else{
                 this.sortBy = 'Price'
@@ -127,7 +126,7 @@ export default {
             this.$router.replace({path:'/products',query:{
                 category: this.query.category,
                 page: this.query.page,
-                sort: event.target.value,
+                sort: sort,
                 order: this.query.order,
                 }});
             this.$store.dispatch('getProducts');
@@ -182,7 +181,7 @@ export default {
     flex-wrap: wrap;
     padding: 1rem;
     align-self: flex-start;
-    border: 1px solid black;
+    //border: 1px solid black;
 
     @media only screen and (max-width: 500px){
         flex-direction: column;
@@ -272,7 +271,7 @@ export default {
   display: none;
   position: absolute;
   background-color: #fff;
-  min-width: 160px;
+  width: 14rem;
   box-shadow: 0px 8px 16px 0px rgba(0,0,0,0.2);
   z-index: 18;
 }

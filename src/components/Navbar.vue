@@ -3,31 +3,49 @@
         <div class="upper--nav">
             <div class="nav--logo" @click="$router.push('/')" /> 
 
-            <div class="ico-menu">
+            <ul class="ico-menu">
 
-                <svg class="nav--icon" @click="$router.push('/login')">
+                <li id="user">
+                    <svg class="nav--icon">
                     <use xlink:href="../assets/sprite.svg#icon-user"></use>
-                </svg>
+                    </svg>
 
-                <svg class="nav--icon" @click="showSearch = !showSearch">
+                    <ul v-if="!auth">
+                        <li @click="toggleBackdrop('login')">Login</li>
+                        <li @click="toggleBackdrop('signup')">Signup</li>
+                    </ul>
+                    <ul v-else>
+                        <li @click="logout">Logout</li>
+                    </ul>
+                </li>           
+                
+
+                <li>
+                    <svg class="nav--icon" @click="showSearch = !showSearch">
                     <use xlink:href="../assets/sprite.svg#icon-search"></use>
-                </svg>
+                    </svg>
+                </li>
+                
 
-                <svg class="nav--icon" @click="$router.push('/cart')">
+                <li>
+                    <svg class="nav--icon" @click="$router.push('/cart')">
                     <use xlink:href="../assets/sprite.svg#icon-cart"></use>
-                </svg>
+                    </svg>
+                </li>
+                
 
+                <li>
                 <svg class="nav--icon" id="mobile--icon" @click="showMobileMenu = !showMobileMenu">
                     <use xlink:href="../assets/sprite.svg#icon-menu"></use>
                 </svg> 
-            </div>
+                </li>
+            </ul>
 
             <div  @click="showMobileMenu = !showMobileMenu" :class="[showMobileMenu? 'mobile--menu open' : 'mobile--menu']">
                 <ul class="mobile--nav--list" >
-                <li class="mobile--nav--list__item" @click="showMobileMenu = false"><router-link to="/products?category=600d8fff33a0700015473f15&page=1&sort=1&order=1">SHOP</router-link></li>
+                <li class="mobile--nav--list__item" @click="showMobileMenu = false"><router-link to="/">HOME</router-link></li>
+                <li class="mobile--nav--list__item" @click="showMobileMenu = false"><router-link :to="'products?category='+ categories[0]._id +'&page=1&sort=1&order=1'">SHOP</router-link></li>
                 <li class="mobile--nav--list__item" @click="showMobileMenu = false"><router-link to="/categories">CATEGORIES</router-link></li>
-                <li class="mobile--nav--list__item" @click="showMobileMenu = false"><router-link to="/customize">CUSTOMIZE</router-link></li>
-                <li class="mobile--nav--list__item" @click="showMobileMenu = false"><router-link to="/about-us">ABOUT US</router-link></li>
                 </ul>
             </div>  
 
@@ -42,11 +60,9 @@
                 <router-link tag="li" class="nav--list__item" to="/" exact="">Home</router-link>
                 <router-link tag="li" class="nav--list__item" :to="'products?category='+ categories[0]._id +'&page=1&sort=1&order=1'">SHOP</router-link>
                 <router-link tag="li" class="nav--list__item" to="/categories">CATEGORIES</router-link>
-                <router-link tag="li" class="nav--list__item" to="/customize">CUSTOMIZE</router-link>
-                <router-link tag="li" class="nav--list__item" to="/about-us">ABOUT US</router-link>
             </ul>
         </div>
-        <backdrop component="signup" />
+        <backdrop component="signup" v-if="showBackdrop" />
     </nav>
 </template>
 
@@ -57,7 +73,8 @@ export default {
     data(){
         return{
             showMobileMenu: false,
-            showSearch: false
+            showSearch: false,
+            showBackdrop: false
         }
     },
     components: {
@@ -67,7 +84,18 @@ export default {
     computed: {
         categories(){
             return this.$store.getters.categories
+        },
+        auth(){
+            return this.$store.getters.isAuthenticated
         }
+    },
+    methods: {
+      toggleBackdrop(component) {
+        this.$emit('show-backdrop', component);
+      },
+      logout(){
+          this.$store.dispatch('logout')
+      }
     }
 }
 </script>
@@ -82,7 +110,7 @@ export default {
     display: flex;
     justify-content: space-between;
     background-color: #fff;
-    z-index: 999;
+    //z-index: 999;
 
     @media only screen and (max-width: 500px){
         height: 7vh;      
@@ -161,7 +189,7 @@ export default {
     .nav--list{
     list-style: none;
     display: flex;
-    min-width: 50%;
+    min-width: 40%;
     justify-content: space-between;
     align-items: center;
 
@@ -204,6 +232,53 @@ export default {
     min-width: 10%;
     display: flex;
     justify-content: space-between;
+
+    li{
+        height: 100%;
+        display: flex;
+        position: relative;
+
+        
+
+        ul{
+            position: absolute;
+            width: 10rem;
+            right: 0;
+            top: 3.5rem;
+            display: none;
+            flex-direction: column;
+            align-items: center;
+            margin: 0;
+            padding: 0;
+            background-color: #fff;
+            box-shadow: 0px 8px 16px 0px rgba(0,0,0,0.2);
+
+            li {
+                color: $primary-color;
+                padding: 10px 14px;
+                text-decoration: none;
+                display: block;
+                cursor: pointer;
+                font-size: 1.5rem;
+                font-weight: 500;
+                transition: all .3s;
+                width: 100%;
+                display: flex;
+                justify-content: center;
+
+                &:hover{
+                    background-color: $primary-color;
+                    color: #fff;
+                }
+            }
+        }
+
+        &#user:hover{
+            ul {
+                display: flex;
+            }
+        }
+    }
 }
 
 .nav--icon{
@@ -213,6 +288,11 @@ export default {
     align-self: center;
     margin-right: 1rem;
     cursor: pointer;
+    transition: all .3s;
+
+    &:hover{
+        fill: $primary-color;
+    }
 
     @media only screen and (max-width: 500px){
     width: 2rem;
