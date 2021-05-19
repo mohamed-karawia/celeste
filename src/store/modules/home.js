@@ -3,7 +3,7 @@ import axios from 'axios';
 
 const state = {
     home: {
-        newArrival: {},
+        newArrival: [],
         categories: [],
         hotItem: {},
         offers: {}

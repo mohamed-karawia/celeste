@@ -1,6 +1,7 @@
 import Vue from 'vue'
 import VueRouter from 'vue-router'
 import Home from '../views/Home.vue'
+import store from '../store/index'
 
 import Categories from '../views/Categories'
 import Customize from '../views/Customize'
@@ -9,6 +10,7 @@ import Products from '../views/Products'
 import Product from '../views/Product'
 import Login from '../views/Login'
 import Cart from '../views/Cart'
+import Wishlist from '../views/Wishlist'
 
 
 Vue.use(VueRouter)
@@ -57,8 +59,29 @@ const routes = [
   {
     path: '/cart',
     name: 'Cart',
-    component: Cart
+    component: Cart,
+    beforeEnter(to, from, next){
+      if (store.getters.isAuthenticated){        
+        next()
+      }else{
+        next('/login')
+      }
+    }
+    
   },
+
+  {
+    path: '/wishlist',
+    name: 'Wishlist',
+    component: Wishlist,
+    beforeEnter(to, from, next){
+      if (store.getters.isAuthenticated){        
+        next()
+      }else{
+        next('/login')
+      }
+    }
+  }
 ]
 
 const router = new VueRouter({

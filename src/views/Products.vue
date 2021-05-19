@@ -37,7 +37,7 @@
             </div>
         </div>
             <ul class="products--list">
-            <Spinner v-if="loading" />
+            <Spinner width='10em' height="10em" v-if="loading" position="absolute"/>
             <li v-else v-for="product in products" :key="product._id" @click="$router.push(`/product/${product._id}`)">
                 <small-product :product="product" />
             </li>
@@ -45,10 +45,9 @@
         
         <paginate
             v-if="!loading && numPages > 1"
-            :pageCount="numPages"
+            v-model="page"
+            :page-count="numPages"
             :clickHandler="changePage"
-            :prevText="'Prev'"
-            :nextText="'Next'"
             :container-class="'container-class'"
             :page-class="'page-class'"
             :page-link-class="'page-link-class'"
@@ -66,7 +65,8 @@ export default {
     data(){
         return{
             sortBy: 'Date',
-            orderBy : 'Low to High'
+            orderBy : 'Low to High',
+            page: parseInt(this.$route.query.page)
         }
     },
     computed: {
@@ -110,7 +110,8 @@ export default {
                 sort: this.query.sort,
                 order: this.query.order,
                 }});
-            this.$store.dispatch('getProducts', this.query);
+            this.page = 1;
+            this.$store.dispatch('getProducts');
         },
 
         changeSort(sort){
@@ -125,7 +126,7 @@ export default {
 
             this.$router.replace({path:'/products',query:{
                 category: this.query.category,
-                page: this.query.page,
+                page: this.page,
                 sort: sort,
                 order: this.query.order,
                 }});
@@ -140,21 +141,22 @@ export default {
             }
             this.$router.push({path:'/products',query:{
                 category: this.query.category,
-                page: this.query.page,
+                page: this.page,
                 sort: this.query.sort,
                 order: order,
                 }});
-            this.$store.dispatch('getProducts', this.query);
+            this.$store.dispatch('getProducts');
         },
 
         changePage(num){
-            this.$router.push({path:'/products',query:{
+            this.page = num
+            this.$router.replace({path:'/products',query:{
                 category: this.query.category,
-                page: num,
+                page: this.page,
                 sort: this.query.sort,
                 order: this.query.order,
-                }});
-            this.$store.dispatch('getProducts');
+            }});
+            this.$store.dispatch('getProducts', this.page);
             window.scrollTo(0,0);
         }
     }
@@ -245,7 +247,11 @@ export default {
     grid-template-columns: repeat(auto-fill, 22rem); 
     grid-column-gap: 70px; //gap between the rows
     grid-row-gap: 20px;
-
+    justify-content: center;
+    //width: 60%;
+    //position: relative;
+    //border: 1px solid black;
+    border: 1px solid black;
     @media only screen and (max-width: 500px){
     grid-template-columns: repeat(2, 12rem);
     }

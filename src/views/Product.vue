@@ -38,8 +38,8 @@
                         v-for="(length, index) in product.size" 
                         :key="index" 
                         class="lenght--list__item"
-                        :class="{'active' : productLength == index}"
-                        @click="changeLength(index)"
+                        :class="{'active' : productLength == length}"
+                        @click="changeLength(length)"
                         >{{ length }} CM</li>
                     </ul>
                 </div>
@@ -55,7 +55,8 @@
                     v-on:increaseQuantity="quantity++"
                     v-on:decreaseQuantity="quantity--"  
                     />
-                    <button class="add-to-cart">Add to Cart</button>
+                    <button class="add-to-cart" @click="addToCart">Add to Cart</button>
+                    <Wishlist />
                 </div>
 
 
@@ -79,20 +80,23 @@
 
 <script>
 import Product from '../components/products/SmallProduct';
-import Quantity from '../components/Quantity'
+import Quantity from '../components/Quantity';
+import Wishlist from '../components/Wishlist'
 
 export default {
     data(){
         return{
             mainImage: 0,
             quantity: 1,
-            productLength : 0
+            productLength : null,
+            
         }
     },
 
     components:{
         product : Product,
-        Quantity
+        Quantity,
+        Wishlist
     },
 
     created(){
@@ -110,8 +114,16 @@ export default {
         },
     },
     methods: {
-        changeLength(index){
-            this.productLength = index;
+        changeLength(length){
+            this.productLength = length;
+        },
+        addToCart(){
+            const payload = {
+                productId : this.$route.params.id,
+                amount: parseInt(this.quantity),
+                size: this.productLength
+            }
+            this.$store.dispatch('addToCart', payload)
         }
     }
     
@@ -365,6 +377,7 @@ export default {
             .add-to-cart{
                 border: 1px solid #fff;
                 background-color: $primary-color;
+                margin: 0 1rem;
                 width: 15rem;
                 font-size: 1.5rem;
                 padding : 1rem .7rem;

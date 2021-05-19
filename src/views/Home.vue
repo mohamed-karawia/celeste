@@ -2,10 +2,20 @@
   <div class="container">
     <section class="arrivals--hot" v-if="home.newArrival.length > 0">
       <div class="new--arrivals">
+        <div class="new--arrivals__flex">
         <div 
         class="new--arrivals__image"
-        :style="{ 'background-image': 'url(https://celeste-api.herokuapp.com/'+ home.newArrival[0].images[0] + ')' }"
-        @click="$router.push(`/product/${home.newArrival._id}`)"></div>
+        :style="{ 'background-image': 'url(https://celeste-api.herokuapp.com/'+ home.newArrival[3].images[0] + ')' }"
+        @click="$router.push(`/product/${home.newArrival[3]._id}`)"></div>
+        <div 
+        class="new--arrivals__image"
+        :style="{ 'background-image': 'url(https://celeste-api.herokuapp.com/'+ home.newArrival[1].images[0] + ')' }"
+        @click="$router.push(`/product/${home.newArrival[1]._id}`)"></div>
+        <div 
+        class="new--arrivals__image"
+        :style="{ 'background-image': 'url(https://celeste-api.herokuapp.com/'+ home.newArrival[2].images[0] + ')' }"
+        @click="$router.push(`/product/${home.newArrival[2]._id}`)"></div>
+        </div>
         <h2>New Arrivals</h2>
 
       </div>
@@ -70,6 +80,7 @@
 export default {
   created(){
     this.$store.dispatch('getHomeDetails')
+    console.log(this.$store.getters.home)
   },
 
   computed:{
@@ -107,6 +118,8 @@ export default {
     border: none;
     cursor: pointer;
     padding: 3px;
+    position: relative;
+
     
     @media only screen and (max-width: 500px){
     width: 100%;
@@ -114,24 +127,52 @@ export default {
     border-radius: 10px;
   }
 
+  &__flex{
+    display: flex;
+    height: 100%;
+    width: 100%;
+    border-radius: 5px 5px 0 0;
+  }
+
     &:hover{
-      border: 1px solid $primary-color;
-      border-radius: 10px;
+      /*border: 1px solid $primary-color;
+      border-radius: 10px;*/
+      &::after {
+      opacity: 1;
+      position: absolute;
+      content: "";
+      top: 0;
+      left: 0;
+      z-index: -2;
+      width: 101%;
+      height: 102%;
+      background: linear-gradient(
+        60deg,
+        #f8cdcd,
+        #f8d6d6,
+        white
+      );
+      background-size: 300% 300%;
+      background-position: 0 50%;
+      border-radius: 1%;
+      transition: opacity .5s;
+      animation: moveGradient 2s alternate infinite;
+    }
     }
   }
 
   .new--arrivals__image{
     //border: 1px solid red;
-    background-position-y: 100%;
+    background-position: center;
     background-repeat: no-repeat;
     background-size: cover;
-    width: 100%;
+    //width: 30%;
     height: 100%;
     display: flex;
     justify-content: center;
     align-items: flex-end;
     padding: 2rem;
-    
+    flex: 1;
 
     
   }
@@ -253,12 +294,22 @@ h2{
   font-size: 2.5rem;
   //text-shadow: 1px 1px 2px rgb(139, 139, 139);
   font-weight: 500;
+  background-color: #fff;
+  width: 100%;
+  display: flex;
+  justify-content: center;
 }
 
 h1{
   font-size: 2rem;
   font-weight: 300;
   margin-bottom: 1rem;
+}
+
+@keyframes moveGradient {
+  50% {
+    background-position: 100% 50%;
+  }
 }
 
 </style>

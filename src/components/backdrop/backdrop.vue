@@ -38,22 +38,27 @@ export default {
             stateComponent: 'login'
         }
     },
-    props: {
+    /*props: {
         component: {
             type: String,
             required: true
         }
-    },
+    },*/
     components: {
         login,
         signup
     },
     methods: {
         toggleBackdrop(){
-            this.$emit('hide-backdrop');
+            this.$store.commit('hideBackdrop')
         },
         toggleLogin(component){
-            this.$emit('toggle-component', component)
+            this.$store.commit('showBackdrop', component)
+        }
+    },
+    computed: {
+        component(){
+            return this.$store.getters.backdropComponent
         }
     }
 }

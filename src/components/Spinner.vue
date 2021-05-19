@@ -1,15 +1,25 @@
 <template>
-    <div class="loader">Loading...</div>
+    <div class="loader" :style="'width: ' + width + ';height: ' + height + ';' + [position === 'absolute' ? 'position: absolute; left: 45%' : 'position: static']">Loading...</div>
 </template>
+
+<script>
+export default {
+  props:{
+    width: String,
+    height: String,
+    position : String
+  }
+}
+</script>
 
 <style lang="scss" scoped>
 
 .loader {
   font-size: 10px;
-  margin: 50px auto;
+  margin: 20px auto;
   text-indent: -9999em;
-  width: 11em;
-  height: 11em;
+  /*width: 11em;
+  height: 11em;*/
   border-radius: 50%;
   background: #bd8b8b;
   background: -moz-linear-gradient(left, #bd8b8b 10%, rgba(189,139,139, 0) 42%);
@@ -17,14 +27,13 @@
   background: -o-linear-gradient(left, #bd8b8b 10%, rgba(189,139,139, 0) 42%);
   background: -ms-linear-gradient(left, #bd8b8b 10%, rgba(189,139,139, 0) 42%);
   background: linear-gradient(to right, #bd8b8b 10%, rgba(189,139,139, 0) 42%);
-  position: absolute;
-  left: 45%;
+  //position: absolute;
+  //left: 50%;
+  //transform: translatex(-50%);
   -webkit-animation: load3 1.4s infinite linear;
   animation: load3 1.4s infinite linear;
   -webkit-transform: translateZ(0);
   -ms-transform: translateZ(0);
-  transform: translateZ(0);
-  transform: translateX(-50);
 }
 .loader:before {
   width: 50%;

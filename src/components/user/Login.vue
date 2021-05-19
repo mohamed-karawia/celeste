@@ -13,10 +13,13 @@
             <input type="password" v-model="password">
         </div>
 
-        <button class="loginButton" @click="loginLocal">LOGIN</button>
+        
 
         <div class="login--buttons">
             <!--<button @click="checkLoginState">Login with facebook</button>  -->
+            <p class="error--message" v-if="error">{{error}}</p>
+            <button class="loginButton" @click="loginLocal" v-if="loginButton === 'login'">LOGIN</button>
+            <Spinner width="5em" height="5em" v-else />
             <v-facebook-login 
             v-model="model" 
             app-id="978916109178865" 
@@ -33,6 +36,7 @@
 <script>
 //import facebookLogin from 'facebook-login-vuejs'
 import VFacebookLogin from 'vue-facebook-login-component';
+import Spinner from '../Spinner';
 export default {
     data() {
       return {
@@ -47,7 +51,7 @@ export default {
 
     components:{
         VFacebookLogin,
-
+        Spinner
     },
 
     methods: {
@@ -74,11 +78,19 @@ export default {
           password : this.password
         };
         this.$store.dispatch('loginLocal', payload);
-            this.email = '';
-            this.password = '';
-            this.$emit('hide-backdrop')
+        this.email = '';
+        this.password = '';
+            //this.$emit('hide-backdrop')
       }
 
+    },
+    computed:{
+      loginButton(){
+        return this.$store.getters.loginButton
+      },
+      error(){
+        return this.$store.getters.errorMessage
+      }
     }
 }
 </script>
@@ -132,6 +144,22 @@ export default {
         @media only screen and (max-width: 500px){
         margin-left: 1.2rem;
     }
+    }
+
+    .login--buttons{
+      //border: 1px solid black;
+      width: 100%;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      //position: relative;
+
+      .error--message{
+        color: red;
+        text-transform: capitalize;
+        font-size: 1.5rem;
+        margin-bottom: 1rem;
+      }
     }
 }
 

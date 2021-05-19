@@ -2,42 +2,66 @@
     <div class="register">
         <h1>Signup</h1>
 
-        <div class="input--box">
+        <div class="input--box" :class="{'invalid': $v.name.$error}">
             <label>Name</label>
-            <input type="text" v-model="name">
+            <input 
+            type="text" 
+            id="name"
+            v-model="name"
+            @blur="$v.name.$touch()"
+            :class="{'invalid': $v.name.$error}"
+            >
+            <p class="error--message" v-if="!$v.name.minLen">Name should be at least 4 charchters</p>
         </div>
 
         <div class="input--box">
             <label :class="{'invalid': $v.email.$error}">EMAIL</label>
             <input 
             type="email" 
+            id="email"
             v-model="email" 
-            @input="$v.email.$touch()"
+            @blur="$v.email.$touch()"
             :class="{'invalid': $v.email.$error}">
+          <p class="error--message" v-if="!$v.email.email">Please provide a valid email address.</p>
         </div>
 
          <div class="input--box">
             <label>PASSWORD</label>
-            <input type="password" v-model="password">
+            <input 
+            type="password" 
+            v-model="password"
+            @blur="$v.password.$touch()">
+          <p class="error--message" v-if="!$v.password.minLen">Password should be at least 6 charchters</p>
         </div>
 
         <div class="input--box">
             <label>CONFIRM PASSWORD</label>
-            <input type="password" v-model="confirmPassword">
+            <input 
+            type="password" 
+            v-model="confirmPassword"
+            @blur="$v.confirmPassword.$touch()">
+            <p class="error--message" v-if="!$v.confirmPassword.sameAs">Password doesn't match.</p>
         </div>
 
          <div class="input--box">
             <label>MOBILE</label>
-            <input type="number" v-model="mobile">
+            <input 
+            type="number" 
+            v-model="mobile"
+            @blur="$v.mobile.$touch()">
+            <p class="error--message" v-if="!$v.mobile.minLen || !$v.mobile.numeric">Mobile number shoould be at least 10 numbers</p>
         </div>
 
-        <button @click="register">REGISTER</button>
+        <p class="error--message" v-if="error">{{error}}</p>
+        <button @click="register" v-if="loginButton === 'login'">REGISTER</button>
+        <Spinner width="5em" height="5em" v-else />
 
     </div>
 </template>
 
 <script>
-import { required, email } from 'vuelidate/lib/validators';
+import { required, email, numeric, minLength, sameAs } from 'vuelidate/lib/validators'
+import Spinner from '../Spinner'
 
 export default {
     data(){
@@ -65,20 +89,45 @@ export default {
             this.password = '';
             this.confirmPassword = '';
             this.mobile = '';
-            this.$emit('hide-backdrop')
         }
     },
 
-    validations: {
+    components:{
+        Spinner
+    },
 
+    validations: {
+        name:{
+            required,
+            minLen: minLength(4)
+        },
         email: {
             required,
             email
         },
         password: {
-            required
+            required,
+            minLen: minLength(6)
+        },
+        confirmPassword:{
+            sameAs: sameAs(vm => {
+            return vm.password
+        })
+        },
+        mobile: {
+            required,
+            numeric,
+            minLen: minLength(10)
         }
     },
+    computed:{
+      loginButton(){
+        return this.$store.getters.loginButton
+      },
+      error(){
+        return this.$store.getters.errorMessage
+      }
+    }
 }
 
 </script>
@@ -97,6 +146,7 @@ export default {
     top: 50%;
     transform: translate(-50%, -50%);*/
     align-items: center;
+    overflow-y: scroll;
 
     @media only screen and (max-width: 500px){
         width: 100%;
@@ -136,6 +186,12 @@ export default {
     button{
         @include loginButton;
     }
+
+    .error--message{
+        color: red;
+        text-transform: capitalize;
+        font-size: 1.5rem;
+      }
 }
 
 </style>

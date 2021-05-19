@@ -1,5 +1,5 @@
 $primary-color: #bd8b8b;
-$secondary-color: #8f6363;
+$secondary-color: #e29a9a;
 
 @mixin button {
     border-radius: 15px;
@@ -55,6 +55,6 @@ $secondary-color: #8f6363;
 @mixin loginInput {
         display: flex;
         flex-direction: column;
-        margin: 2rem 0;
+        margin: 1.5rem 0;
         width: 70%;
 }

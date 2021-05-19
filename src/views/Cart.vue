@@ -1,6 +1,10 @@
 <template>
     <div class="container">
-        <cart-item />
+
+        <div v-for="item in cart" :key="item._id">
+            <cart-item :item="item" @deleteItem="deleteFromCart(item._id)" />
+        </div>
+
         <div class="total">
             <h2 class="total__header">
                 TOTAL
@@ -8,7 +12,7 @@
 
             <div class="total__details">
                 <h3>SUBTOTAL</h3>
-                <p>65 EGP</p>
+                <p>{{cartTotal}} EGP</p>
             </div>
 
             <div class="total__details">
@@ -28,6 +32,23 @@ import CartItem from '../components/cart/CartItem';
 export default {
     components: {
         cartItem : CartItem
+    },
+    created(){
+        this.$store.dispatch('getCart')
+    },
+    computed:{
+        cart(){
+            return this.$store.getters.cart
+        },
+        cartTotal(){
+            return this.$store.getters.cartTotal
+        }
+    },
+    methods: {
+        deleteFromCart(id){
+            console.log(id)
+            this.$store.dispatch('deleteFromCart', id)
+        }
     }
 }
 </script>
@@ -39,6 +60,7 @@ export default {
     @include container;
     display: flex;
     flex-direction: row;
+    flex-wrap: wrap;
     justify-content: space-between;
     align-items: flex-start;
 
@@ -56,6 +78,10 @@ export default {
     align-items: flex-start;
     color: #fff;
     border-radius: 10px;
+
+    @media only screen and(max-width: 500px){
+        width: 100%;
+    }
 
     &__header{
         font-weight: 100;

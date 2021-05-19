@@ -32,6 +32,12 @@
                     <use xlink:href="../assets/sprite.svg#icon-cart"></use>
                     </svg>
                 </li>
+
+                <li>
+                    <svg class="nav--icon" @click="$router.push('/wishlist')">
+                    <use xlink:href="../assets/sprite.svg#icon-heart"></use>
+                    </svg>
+                </li>
                 
 
                 <li>
@@ -41,7 +47,7 @@
                 </li>
             </ul>
 
-            <div  @click="showMobileMenu = !showMobileMenu" :class="[showMobileMenu? 'mobile--menu open' : 'mobile--menu']">
+            <div v-if="categories.length > 0" :class="[showMobileMenu? 'mobile--menu open' : 'mobile--menu']">
                 <ul class="mobile--nav--list" >
                 <li class="mobile--nav--list__item" @click="showMobileMenu = false"><router-link to="/">HOME</router-link></li>
                 <li class="mobile--nav--list__item" @click="showMobileMenu = false"><router-link :to="'products?category='+ categories[0]._id +'&page=1&sort=1&order=1'">SHOP</router-link></li>
@@ -55,31 +61,30 @@
         :tags="categories"
         v-on:hideSearch="showSearch = false"/>
 
-        <div class="lower--nav">
+        <div class="lower--nav" v-if="categories.length > 0">
             <ul class="nav--list">
                 <router-link tag="li" class="nav--list__item" to="/" exact="">Home</router-link>
                 <router-link tag="li" class="nav--list__item" :to="'products?category='+ categories[0]._id +'&page=1&sort=1&order=1'">SHOP</router-link>
                 <router-link tag="li" class="nav--list__item" to="/categories">CATEGORIES</router-link>
             </ul>
         </div>
-        <backdrop component="signup" v-if="showBackdrop" />
+        
     </nav>
 </template>
 
 <script>
 import Search from '../components/search/Search';
-import backdrop from '../components/backdrop/backdrop'
+//import backdrop from '../components/backdrop/backdrop'
 export default {
     data(){
         return{
             showMobileMenu: false,
             showSearch: false,
-            showBackdrop: false
         }
     },
     components: {
         Search,
-        backdrop
+        //backdrop
     },
     computed: {
         categories(){
@@ -91,7 +96,8 @@ export default {
     },
     methods: {
       toggleBackdrop(component) {
-        this.$emit('show-backdrop', component);
+        //this.$emit('show-backdrop', component);
+        this.$store.commit('showBackdrop', component)
       },
       logout(){
           this.$store.dispatch('logout')

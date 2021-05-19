@@ -3,11 +3,7 @@
       <!--<router-link to="/">Home</router-link> |
       <router-link to="/about">About</router-link>-->
       <nav-bar  @show-backdrop="toggleBackdrop" /> 
-      <Backdrop 
-      v-if="showBackdrop"
-      :component="backdropComponent"
-      @hide-backdrop="showBackdrop = false"
-      @toggle-component="toggleComponent" />
+      <Backdrop @toggle-component="toggleComponent" v-if="showBackdrop" />
       <router-view/>
       <Footer v-if="$store.getters.categories.length > 0" />
   </div>
@@ -22,7 +18,7 @@ export default {
   data(){
     return{
       showFooter: false,
-      showBackdrop: false,
+      //showBackdrop: false,
       backdropComponent: 'login'
     }
   },
@@ -37,6 +33,11 @@ export default {
   },
   mounted(){
     this.showFooter = true;
+  },
+  computed:{
+    showBackdrop(){
+      return this.$store.getters.backdrop;
+    }
   },
   methods: {
     toggleComponent(component){

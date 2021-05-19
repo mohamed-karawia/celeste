@@ -17,7 +17,7 @@ const getters = {
     },
 
     pages(state){
-        return Math.ceil(state.totalProducts/10)
+        return Math.ceil(state.totalProducts/12)
     },
 
     product(state){
@@ -51,8 +51,11 @@ const mutations = {
 
 const actions = {
 
-    getProducts({commit}){
-        const page = router.currentRoute.query.page;
+    getProducts({commit}, pageNum){
+        let page = router.currentRoute.query.page;
+        if(pageNum){
+            page = pageNum
+        }
         const category = router.currentRoute.query.category;
         const sort = router.currentRoute.query.sort;
         const order = router.currentRoute.query.order;

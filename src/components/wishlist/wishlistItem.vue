@@ -1,19 +1,13 @@
 <template>
     <div class="cart--item">
-        <router-link :to="'/product/' + item.product._id" class="cart--item__image"
-        :style="{ 'background-image': 'url(https://celeste-api.herokuapp.com/'+ item.product.images[0] + ')' }"></router-link>
+        <div class="cart--item__image"></div>
         <div class="cart--item__details">
-            <h2 class="cart--item__details__name" @click="$router.push(`/product/${item.product._id}`)">{{item.product.name}}</h2>
-            <p class="cart--item__details__stock">{{item.product.stock > 0 ? 'in stock' : 'out of stock'}}</p>
-            <Quantity 
-            :quantity="quantity" 
-            v-on:increaseQuantity="quantity++"
-            v-on:decreaseQuantity="quantity--"  
-            />
-            <p class="cart--item__details__price">{{item.product.price}} EGP</p>
+            <h2 class="cart--item__details__name">Necklace three</h2>
+            <p class="cart--item__details__stock">in stock</p>
+            <p class="cart--item__details__price">50 EGP</p>
         </div>
         <div class="cart--item__icon">
-            <svg @click="deleteFromCart">
+            <svg >
                 <use xlink:href="../../assets/sprite.svg#icon-bin2"></use>
             </svg>
         </div>
@@ -21,24 +15,13 @@
 </template>
 
 <script>
-import Quantity from '../Quantity'
+
 export default {
-    props: {
-        item: Object
-    },
     data(){
         return{
-            quantity: this.item.amount,
+
         }
     },
-    components: {
-        Quantity
-    },
-    methods:{
-        deleteFromCart(){
-            this.$emit('deleteItem')
-        }
-    }
 }
 </script>
 
@@ -57,6 +40,7 @@ export default {
     &__image{
         width: 18rem;
         height: 18rem;
+        background-image: url('../../assets/necklace.jpeg');
         margin-right: 2rem;
 
         background-position: center;
@@ -81,7 +65,6 @@ export default {
             font-weight: 100;
             text-transform: capitalize;
             font-size: 2rem;
-            cursor: pointer;
 
             @media only screen and (max-width: 500px){
                 font-weight: 300;
@@ -113,7 +96,6 @@ export default {
         padding: 1rem 0;
 
         svg{
-        cursor: pointer;
         width: 2rem;
         height: 2rem;
     }
