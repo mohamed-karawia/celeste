@@ -7,8 +7,9 @@
 3- Axios for API calls 
 ```
 
-### Notes: 
-```
--Not finished yet.
+### Not finished yet: 
+``
+1- Wishlist route
+2- Payment route
 ```
 
